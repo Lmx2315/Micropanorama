@@ -671,15 +671,15 @@ uint16 getIINCHIP_TxBASE(uint8 s)
 }
 void IINCHIP_CSoff(void)
 {
-	NSS_4(0);
+	NSS_2(0);
 }
 void IINCHIP_CSon(void)
 {
-	NSS_4(1);
+	NSS_2(1);
 }
 u8  IINCHIP_SpiSendData(uint8 dat)
 {
-	return(spi4send8 (dat)); //8 бит
+	return(spi2send8 (dat)); //8 бит
 }
 
 

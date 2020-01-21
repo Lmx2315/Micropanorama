@@ -68,7 +68,7 @@ TIM_OC_InitTypeDef sConfigOC = {0};
 /* USER CODE BEGIN PV */
 
 volatile  uint16_t adcBuffer[5]; // Buffer for store the results of the ADC conversion
-float adc_ch[12];
+float adc_ch[17];
 
 uint8_t transmitBuffer[32];
 uint8_t receiveBuffer[32];
@@ -220,9 +220,7 @@ float LM_v       (u8);
 float LM_in_p    (u8);
 float LM_in_i    (u8);
 float LM_aux_u   (u8);
-u8 TCA_WR    (u32);
-u8 LM_MFR_ID (u8);
-u8 TCA_test (void);
+
 void UART_DMA_TX (void);
 
 /* USER CODE END PFP */
@@ -321,7 +319,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 5;
+  hadc1.Init.NbrOfConversion = 16;
   hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
@@ -362,10 +360,98 @@ static void MX_ADC1_Init(void)
     Error_Handler();
   }
  
+/** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_4;
+  sConfig.Rank = 5;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
   */
-  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
-  sConfig.Rank = 5;
+  sConfig.Channel = ADC_CHANNEL_5;
+  sConfig.Rank = 6;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_6;
+  sConfig.Rank = 7;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_7;
+  sConfig.Rank = 8;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_8;
+  sConfig.Rank = 9;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_9;
+  sConfig.Rank = 10;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_10;
+  sConfig.Rank = 11;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_11;
+  sConfig.Rank = 12;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_12;
+  sConfig.Rank = 13;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_13;
+  sConfig.Rank = 14;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_14;
+  sConfig.Rank = 15;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_15;
+  sConfig.Rank = 16;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -431,8 +517,8 @@ static void MX_SPI2_Init(void)
   hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -699,68 +785,56 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
-  /*Configure GPIO pins : PC13 PC14 PC15 PC1 */
-  GPIO_InitStruct.Pin   = GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15|GPIO_PIN_1;
+  /*Configure GPIO pins : */
+  GPIO_InitStruct.Pin   = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PE4 PE10 PE11 PE0 */
-  GPIO_InitStruct.Pin   = GPIO_PIN_4|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_0;
+  /*Configure GPIO pins :  */
+  GPIO_InitStruct.Pin   = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_8|GPIO_PIN_9;
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB12 PB9 */
-  GPIO_InitStruct.Pin   = GPIO_PIN_12|GPIO_PIN_9;
+  /*Configure GPIO pins : */
+  GPIO_InitStruct.Pin   = GPIO_PIN_5|GPIO_PIN_9|GPIO_PIN_12;
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PD9 PD10 PD12 PD14 
-                           PD15 PD0 PD1 PD4 
-                           PD7 */
-  GPIO_InitStruct.Pin   = GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_14 
-                          |GPIO_PIN_15|GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_4 
-                          |GPIO_PIN_7;
+  /*Configure GPIO pins :  */
+  GPIO_InitStruct.Pin   = GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PC6 PC7 */
-  GPIO_InitStruct.Pin  = GPIO_PIN_6|GPIO_PIN_7;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PC8 */
-  GPIO_InitStruct.Pin  = GPIO_PIN_8;
+  
+   /*Configure GPIO pins :  */
+  GPIO_InitStruct.Pin   = GPIO_PIN_8;
+  GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull  = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  
+    /*Configure GPIO pin :  */
+  GPIO_InitStruct.Pin  = GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PD3 */
-  GPIO_InitStruct.Pin  = GPIO_PIN_3;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PE1 */
-  GPIO_InitStruct.Pin  = GPIO_PIN_1;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;//GPIO_MODE_IT_FALLING
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  /*Configure GPIO pins : INT2 */
+ // GPIO_InitStruct.Pin  = GPIO_PIN_7;
+ // GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;//GPIO_MODE_IT_FALLING
+ // GPIO_InitStruct.Pull = GPIO_NOPULL;
+///  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-//  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
-//  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+ // HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+ // HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 
@@ -892,6 +966,17 @@ u8 spi4send8 (u8 d) //8 бит
   a1 = (d)      &0xff;
   
   HAL_SPI_TransmitReceive(&hspi4, &a1, &b,1, 5000); 
+  return b; 
+}
+
+u8 spi2send8 (u8 d) //8 бит
+{
+	u8 a1;
+	u8  b;
+
+  a1 = (d)      &0xff;
+  
+  HAL_SPI_TransmitReceive(&hspi2, &a1, &b,1, 5000); 
   return b; 
 }
 
@@ -1356,19 +1441,18 @@ if (strcmp(Word,"MSG")==0) //
       u_out ("принял ID_SERV:",crc_comp); 
 	  STATUS_ID (&ID_SERV1);
    } else
-	 if (strcmp(Word,"spi5")==0) //
+	 if (strcmp(Word,"spi2")==0) //
    {
 	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял spi5:",crc_comp); 
-	  CS_5_MK(0);
-	  spi5send8(crc_comp);
-	  CS_5_MK(1);
+      u_out ("принял spi2:",crc_comp); 
+	  spi2send8(crc_comp);
+
    } else	
 	 if (strcmp(Word,"nss")==0) //
    {
 	  crc_comp =atoi  (DATA_Word); 
       u_out ("принял nss:",crc_comp); 
-	  NSS_4(crc_comp);
+	  NSS_2(crc_comp);
    } else
 	 if (strcmp(Word,"eth_init")==0) //
    {
@@ -1376,64 +1460,6 @@ if (strcmp(Word,"MSG")==0) //
       u_out ("принял eth_init:",crc_comp); 
 	  Set_network();
    } else
-	 if (strcmp(Word,"tca_rst")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял tca_rst:",crc_comp); 
-       RESET_TCA6424A_MK(crc_comp); 
-   } else
-	   
-   if (strcmp(Word,"tca_test")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял tca_test:",crc_comp); 
-	TEST_LED=crc_comp;
-   } else
- if (strcmp(Word,"tca_w")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял tca_w:",crc_comp); 
-      TCA_WR(crc_comp); 
-   } else
- if (strcmp(Word,"enable_lm")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял enable_lm:",crc_comp); 
-      ENABLE_LM25056_MK(crc_comp); 
-   } else	
- if (strcmp(Word,"lm")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял lm:",crc_comp); 
-      LM_MFR_MODEL(crc_comp);
-	  LM_in_p (crc_comp);
-	  LM_in_i (crc_comp);
-	  LM_aux_u(crc_comp);
-   } else
-if (strcmp(Word,"lm_ID")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял lm_ID:",crc_comp); 
-      LM_MFR_ID(crc_comp);
-   } else
- if (strcmp(Word,"lm_temp")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял lm_temp:",crc_comp); 
-      LM_TEMP(crc_comp);
-   } else	
- if (strcmp(Word,"lm_v")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял lm_v:",crc_comp); 
-      LM_v(crc_comp);
-   } else	   
- if (strcmp(Word,"pwr_072")==0) //
-   {
-	  crc_comp =atoi  (DATA_Word); 
-      u_out ("принял pwr_072:",crc_comp); 
-      PWR_072(crc_comp);
-   } else		
  if (strcmp(Word,"i2c_adr")==0) //
    {
 	  crc_comp =atoi  (DATA_Word); 
@@ -1456,7 +1482,7 @@ if (strcmp(Word,"lm_ID")==0) //
    {
 	  crc_comp =atoi  (DATA_Word); 
       u_out ("принял pwrdn:",crc_comp); 
-      PWDN_4(crc_comp);
+      PWDN_2(crc_comp);
    } else
  if (strcmp(Word,"ADC_test")==0) //
    {
@@ -1654,7 +1680,6 @@ void LED (void)
 		VD4(0);
 		VD5(0);
 		FLAG_T1=1;
-		if (TEST_LED!=0)	TCA_WR (TEST_LED);
 		TEST_LED=TEST_LED<<1;
 	}
 	
@@ -1745,21 +1770,47 @@ void ADC_test (void)
 	adc_ch[ 2] = ((float)adcBuffer[2])*3.3*5.71428/4096;//12 Вольт делитель 47к-10к
 	adc_ch[ 3] = ((float)adcBuffer[3])*3.3/4096*2;
 	adc_ch[ 4] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[ 5] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[ 6] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[ 7] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[ 8] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[ 9] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[10] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[11] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[12] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[13] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[14] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[15] = ((float)adcBuffer[4])*3.3/4096;
 	
 	
 	Transf("\r\n---------\r\n");
-	f_out("adc0_5.0V     :",adc_ch[0 ]);
-	f_out("adc1_3.3V     :",adc_ch[1 ]);
-	f_out("adc2_12V      :",adc_ch[2 ]);
-	f_out("adc3_3.3V     :",adc_ch[3 ]);
-	f_out("temp_sens(С)  :",ADC_Temp(adc_ch[4]));
+	f_out("CONTR_1_4	 :",adc_ch[0 ]);
+	f_out("CONTR_2_4     :",adc_ch[1 ]);
+	f_out("CONTR_3_4     :",adc_ch[2 ]);
+	f_out("CONTR_4_4     :",adc_ch[3 ]);
+	
+	f_out("CONTR_1_1	 :",adc_ch[4 ]);
+	f_out("CONTR_2_1     :",adc_ch[5 ]);
+	f_out("CONTR_3_1     :",adc_ch[6 ]);
+	f_out("CONTR_4_1     :",adc_ch[7 ]);
+	
+	f_out("CONTR_1_2	 :",adc_ch[8 ]);
+	f_out("CONTR_2_2     :",adc_ch[9 ]);
+	f_out("CONTR_3_2     :",adc_ch[10]);
+	f_out("CONTR_4_2     :",adc_ch[11]);
+	
+	f_out("CONTR_1_3	 :",adc_ch[12]);
+	f_out("CONTR_2_3     :",adc_ch[13]);
+	f_out("CONTR_3_3     :",adc_ch[14]);
+	f_out("CONTR_4_3     :",adc_ch[15]);
+
+//	f_out("temp_sens(С)  :",ADC_Temp(adc_ch[4]));
 	
 	Transf("\r\r\r");
-	u_out("adc0_5.0V     :",adcBuffer[0 ]);
-	u_out("adc1_3.3V     :",adcBuffer[1 ]);
-	u_out("adc2_12V      :",adcBuffer[2 ]);
-	u_out("adc3_3.3V     :",adcBuffer[3 ]);
-	u_out("temp_sens(С)  :",adcBuffer[4 ]);
+	u_out("CONTR_1_4     :",adcBuffer[0 ]);
+	u_out("CONTR_2_4     :",adcBuffer[1 ]);
+	u_out("CONTR_3_4     :",adcBuffer[2 ]);
+	u_out("CONTR_4_4     :",adcBuffer[3 ]);
 	
 }
 
@@ -1768,7 +1819,7 @@ u8 FLAG_WDG=0;
 void DMA_ADC (void)
 {
 	HAL_ADC_Start(&hadc1);
-	HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,5); // Start ADC in DMA 	
+	HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA 	
 }
 
 void WATCH_DOG (void)
@@ -1788,66 +1839,7 @@ void WATCH_DOG (void)
   * @retval int
   */
   
-void BP_start (u16 a)
-{
-	static u8 step=0;
-	
-	if ((a==1)&&(step==0))
-	{
-		step=1;
-	} else if ((step>4)&&(a==0)) step=0;
-	
-	if ((a==0)&&(step==0))
-	{
-		PWM (0);
-	} 
-	
-	
-	if (step==1)
-	{
-		TIMER_BP_PWM=100;
-		step=2;
-		Transf("step1\r\n");
-		PWM (100);
-	}
-	
-	if ((step==2)&&(TIMER_BP_PWM==0))
-	{
-		PWM (1000);
-		TIMER_BP_PWM=100;
-		step=3;
-		Transf("step2\r");
-	}
-	
-	if ((step==3)&&(TIMER_BP_PWM==0))
-	{
-		PWM (3000);
-		TIMER_BP_PWM=100;
-		step=4;
-		Transf("step3\r");
-	}
-	
-	if ((step==4)&&(TIMER_BP_PWM==0))
-	{
-		PWM (7000);
-		TIMER_BP_PWM=100;
-		step=5;
-		Transf("step4\r");
-	}
-	
-	if ((step==5)&&(TIMER_BP_PWM==0))
-	{
-		PWM (9000);
-		TIMER_BP_PWM=100;
-		step=6;
-		Transf("step5\r");
-		
-		IO("~0 pwr_072:0;"); //подаём питание на все каналы!!! - без этого не работает i2c
-			
-		IO("~0 enable_lm:1;");//включаем все м/мы LM
-	}
-	
-}  
+
   
 void PWM (u16 a)
 {
@@ -1862,492 +1854,6 @@ void PWM (u16 a)
   HAL_TIMEx_PWMN_Start(&htim4,TIM_CHANNEL_1);
 }  
 
-
-u8 TCA_test (void)
-{
- return 0;
-}
-
-u8 TCA_WR (u32 z)
-{
-	uint16_t DevAddress=0x22;//адрес 
-	 u8  a[4];
-	 uint8_t state=0;
-	 
-	 HAL_I2C_Init(&hi2c1);
-	
-	a[0] =   0x8c;  //Configuration Port 0
-	a[1] =   0x00;
-	a[2] =   0x00;
-	a[3] =   0x00;
-	
-	state=HAL_I2C_Master_Transmit(&hi2c1,(DevAddress<<1),a,4,1000);//конфигурируем порты мк как выходы
-	
-	a[0] =   0x84;  //Output Port 0
-	
-	a[1] = (z>> 0)&0xff;
-	a[2] = (z>> 8)&0xff;
-	a[3] = (z>>16)&0xff;
-	
-	state=HAL_I2C_Master_Transmit(&hi2c1,(DevAddress<<1),a,4,1000);
-	
-	HAL_I2C_DeInit(&hi2c1);
-
-	return state;
-}
-
-u8 PWR_072 (u8 z)
-{
-	uint16_t DevAddress=0x53;//адрес DD10 ds4520
-	 u8  a[2];
-	 uint8_t state=0;
-	 uint8_t v=0;
-	 u32 error=0;
-	
-	HAL_I2C_Init(&hi2c1);	
-
-	if (z&(1<<0)) v=v|(1<<6);
-	if (z&(1<<1)) v=v|(1<<4);
-	if (z&(1<<2)) v=v|(1<<5);
-	if (z&(1<<3)) v=v|(1<<3);
-	if (z&(1<<4)) v=v|(1<<2);
-	if (z&(1<<5)) v=v|(1<<1);
-	if (z&(1<<6)) v=v|(1<<0);
-	if (z&(1<<7)) v=v|(1<<7);
-	
-	a[0] =   0xf0;  //команда-регистр включение подтяжки для 0-7 выходы
-	a[1] =   v;
-	
-	HAL_I2C_Master_Transmit(&hi2c1,(DevAddress<<1),a,2,1000);
-		
-	a[0] =   0xf2;  //команда-регистр записи 0-7 выходы (либо ноль либо третье состояние!!!)
-	a[1] =      v;
-	
-//	u_out("z:",z);
-//	state=      HAL_I2C_IsDeviceReady  (&hi2c1,(DevAddress<<1),1,  1000);
-		error = HAL_I2C_Master_Transmit(&hi2c1,(DevAddress<<1),a,2,1000);
-//	if (state)  HAL_I2C_Master_Transmit(&hi2c1,(DevAddress<<1),a,2,1000);
-
-		PWR_CHANNEL=z;
-	
-	HAL_I2C_DeInit(&hi2c1);
-	
-	return state;
-}
-
-
-
-u8 LM_MFR_MODEL (u8 z)
-{
-	 uint16_t DevAddress=0x00;//
-	 uint8_t a[32];
-	 uint16_t Size2=8;
-	 uint8_t state=1;
-	 uint8_t c[2];
-	 
-	 c[0]=0x9a;//To read the manufacturer ID команда-чтение manufacturer ID in ASCII characters (NSC).
-	 
-	HAL_I2C_Init(&hi2c1); 
-	 
-	if (z==8)  DevAddress=0x50;//LM25056 - 1-го канала
-	if (z==7)  DevAddress=0x56;//LM25056 - 2-го канала
-	if (z==6)  DevAddress=0x51;//LM25056 - 3-го канала
-	if (z==5)  DevAddress=0x57;//LM25056 - 4-го канала
-	if (z==4)  DevAddress=0x59;//LM25056 - 5-го канала
-	if (z==3)  DevAddress=0x5a;//LM25056 - 6-го канала
-	if (z==2)  DevAddress=0x15;//LM25056 - 7-го канала
-	if (z==1)  DevAddress=0x16;//LM25056 - 8-го канала
-	
-	state  = HAL_I2C_IsDeviceReady  (&hi2c1,(DevAddress<<1),1,  1000);
-//	x_out("state:",state);
-	if (!state)  
-	{
-		HAL_I2C_Master_SMBA_block_recieve(&hi2c1,(DevAddress<<1),c,1,a,Size2,1);
-		
-		x_out("a[0]=",a[0]);
-		x_out("a[1]=",a[1]);
-		x_out("a[2]=",a[2]);		
-		x_out("a[3]=",a[3]);
-		x_out("a[4]=",a[4]);
-		x_out("a[5]=",a[5]);
-		x_out("a[6]=",a[6]);
-		x_out("a[7]=",a[7]);
-	}	
-	
-	HAL_I2C_DeInit(&hi2c1);
-	
-	return state;
-}
-
-u8 LM_ID_CN[8];
-
-u8 LM_MFR_ID (u8 z)
-{
-	 uint16_t DevAddress=0x00;//
-	 uint8_t a[32];
-	 uint16_t Size2=3;
-	 uint8_t state=1;
-	 uint8_t v=0;
-	 uint8_t c[2];
-	 u32 error=0;
-	 
-	 HAL_I2C_Init(&hi2c1);
-	 
-	 c[0]=0x99;//To read the manufacturer ID команда-чтение manufacturer ID in ASCII characters (NSC).
-	 
-	if (z==8)  DevAddress=0x50;//LM25056 - 1-го канала
-	if (z==7)  DevAddress=0x56;//LM25056 - 2-го канала
-	if (z==6)  DevAddress=0x51;//LM25056 - 3-го канала
-	if (z==5)  DevAddress=0x57;//LM25056 - 4-го канала
-	if (z==4)  DevAddress=0x59;//LM25056 - 5-го канала
-	if (z==3)  DevAddress=0x5a;//LM25056 - 6-го канала
-	if (z==2)  DevAddress=0x15;//LM25056 - 7-го канала
-	if (z==1)  DevAddress=0x16;//LM25056 - 8-го канала
-	
-//	state  = HAL_I2C_IsDeviceReady  (&hi2c1,(DevAddress<<1),1,  1000);
-//	x_out("state:",state);
-//	if (!state)  
-	{
-	 error=HAL_I2C_Master_SMBA_block_recieve(&hi2c1,(DevAddress<<1),c,1,a,Size2,1);
-		
-//		x_out("a[0]=",a[0]);
-//		x_out("a[1]=",a[1]);
-//		x_out("a[2]=",a[2]);
-		if (error==1) 
-		{
-			LM_ID_CN[0]=0xff;
-			LM_ID_CN[1]=0xff;
-			LM_ID_CN[2]=0xff;
-		} else
-		{
-			LM_ID_CN[0]=a[0];
-			LM_ID_CN[1]=a[1];
-			LM_ID_CN[2]=a[2];	
-		}
-	}	
-	
-	HAL_I2C_DeInit(&hi2c1);
-	return state;
-}
-
-u8 D_TEMP[4];
-
-float LM_TEMP (u8 z)
-{
-	 uint16_t DevAddress=0x00;//
-	 uint8_t  a[32];
-	 uint8_t  c[1];
-	 uint16_t Size=2;//размер считываемого массива
-	 uint8_t state=1;
-	 uint8_t v=0;
-	 u32 error=0;
-	 int value=0;
-	 
-	 float x=0;
-	 float m=1580;
-	 float y=0;
-	 float r=2;
-	 float b=-14500;
-	 int   p=0;
-	 
-	 HAL_I2C_Init(&hi2c1);
-	 
-	if (z==8)  DevAddress=0x50;//LM25056 - 1-го канала
-	if (z==7)  DevAddress=0x56;//LM25056 - 2-го канала
-	if (z==6)  DevAddress=0x51;//LM25056 - 3-го канала
-	if (z==5)  DevAddress=0x57;//LM25056 - 4-го канала
-	if (z==4)  DevAddress=0x59;//LM25056 - 5-го канала
-	if (z==3)  DevAddress=0x5a;//LM25056 - 6-го канала
-	if (z==2)  DevAddress=0x15;//LM25056 - 7-го канала
-	if (z==1)  DevAddress=0x16;//LM25056 - 8-го канала
-	
-	c[0]=0x8d;//Retrieves temperature measurement.
-	
-//	state  = HAL_I2C_IsDeviceReady  (&hi2c1,(DevAddress<<1),1,  1000);
-	
-//	x_out("state:",state);
-//	if (!state)  
-	{
-		error=HAL_I2C_Master_SMBA_block_recieve(&hi2c1,(DevAddress<<1),c,1,a,Size,1);
-		
-	//	x_out("a[0]=",a[0]);
-	//	x_out("a[1]=",a[1]);
-	//	x_out("a[2]=",a[2]);		
-	//	x_out("a[3]=",a[3]);
-	//	x_out("a[4]=",a[4]);
-	//	x_out("a[5]=",a[5]);
-	//	x_out("a[6]=",a[6]);
-	//	x_out("a[7]=",a[6]);
-	}	
-	
-	p=(a[1]<<8)+a[0];
-	
-//	x_out("p=",p);
-	
-	y=p;
-	
-//	f_out("y=",y);
-	
-	x=(1/m)*(y*(powf(10,r))-b);
-	
-//	f_out("t=",x);
-	
-	value=x*100;
-	
-	if (error==1) value=0xffffffff;
-	
-	D_TEMP[0]=value>>24;
-	D_TEMP[1]=value>>16;
-	D_TEMP[2]=value>> 8;
-	D_TEMP[3]=value;
-	
-/* 	u_out("D_TEMP[0]",D_TEMP[0]);
-	u_out("D_TEMP[1]",D_TEMP[1]);
-	u_out("D_TEMP[2]",D_TEMP[2]);
-	u_out("D_TEMP[3]",D_TEMP[3]); */
-	
-	HAL_I2C_DeInit(&hi2c1);
-	
-	return x;
-}
-
-float LM_v (u8 z)
-{
-	 uint16_t DevAddress=0x00;//
-	 uint8_t  a[32];
-	 uint8_t  c[1];
-	 uint16_t Size=2;//размер считываемого массива
-	 uint8_t state=1;
-	 uint8_t v=0;
-	 u32 error=0;
-	 int value=0;
-	 
-	 float x=0;
-	 float m=16296;
-	 float y=0;
-	 float r=2;
-	 float b=1343;
-	 int  p=0;
-	 
-	 HAL_I2C_Init(&hi2c1);
-	 
-	if (z==8)  DevAddress=0x50;//LM25056 - 1-го канала
-	if (z==7)  DevAddress=0x56;//LM25056 - 2-го канала
-	if (z==6)  DevAddress=0x51;//LM25056 - 3-го канала
-	if (z==5)  DevAddress=0x57;//LM25056 - 4-го канала
-	if (z==4)  DevAddress=0x59;//LM25056 - 5-го канала
-	if (z==3)  DevAddress=0x5a;//LM25056 - 6-го канала
-	if (z==2)  DevAddress=0x15;//LM25056 - 7-го канала
-	if (z==1)  DevAddress=0x16;//LM25056 - 8-го канала
-	
-	c[0]=0x88;//Retrieves temperature measurement.
-	
-//	state  = HAL_I2C_IsDeviceReady  (&hi2c1,(DevAddress<<1),1,  1000);
-	
-//	x_out("state:",state);
-//	if (!state)  
-	{
-		error=HAL_I2C_Master_SMBA_block_recieve(&hi2c1,(DevAddress<<1),c,1,a,Size,1);
-		
-	//	x_out("a[0]=",a[0]);
-	//	x_out("a[1]=",a[1]);
-	//	x_out("a[2]=",a[2]);		
-	//	x_out("a[3]=",a[3]);
-	//	x_out("a[4]=",a[4]);
-	//	x_out("a[5]=",a[5]);
-	//	x_out("a[6]=",a[6]);
-	//	x_out("a[7]=",a[6]);
-	}	
-	
-	p=(a[1]<<8)+a[0];
-	
-//	x_out("p=",p);
-	
-	y=p;
-	
-//	f_out("y=",y);
-	
-	x=(1/m)*(y*(powf(10,r))-b);
-	
-//	f_out("U=",x);
-	
-    value=x*100;
-	
-	if (error==1) value=0xffffffff;
-	
-	D_TEMP[0]=value>>24;
-	D_TEMP[1]=value>>16;
-	D_TEMP[2]=value>> 8;
-	D_TEMP[3]=value;
-	
-	HAL_I2C_DeInit(&hi2c1);
-	
-	return x;
-}
-  
-float LM_aux_u (u8 z)
-{
-	 uint16_t DevAddress=0x00;//
-	 uint8_t  a[32];
-	 uint8_t  c[1];
-	 uint16_t Size=2;//размер считываемого массива
-	 uint8_t state=1;
-	 uint8_t v=0;
-	 u32 error=0;
-	 int value=0;
-	 
-	 float x=0;
-	 float m=3416;
-	 float y=0;
-	 float r=0;
-	 float b=-4;
-	 int  p=0;
-	 
-	 HAL_I2C_Init(&hi2c1);
-	 
-	if (z==8)  DevAddress=0x50;//LM25056 - 1-го канала
-	if (z==7)  DevAddress=0x56;//LM25056 - 2-го канала
-	if (z==6)  DevAddress=0x51;//LM25056 - 3-го канала
-	if (z==5)  DevAddress=0x57;//LM25056 - 4-го канала
-	if (z==4)  DevAddress=0x59;//LM25056 - 5-го канала
-	if (z==3)  DevAddress=0x5a;//LM25056 - 6-го канала
-	if (z==2)  DevAddress=0x15;//LM25056 - 7-го канала
-	if (z==1)  DevAddress=0x16;//LM25056 - 8-го канала
-	
-	c[0]=0xd0;//Retrieves auxiliary voltage measurement.
-
-	error=HAL_I2C_Master_SMBA_block_recieve(&hi2c1,(DevAddress<<1),c,1,a,Size,1);
-	
-	p=(a[1]<<8)+a[0];
-	y=p;
-
-	x=(1/m)*(y*(powf(10,r))-b);
-	
-//	f_out("U=",x);
-	
-	value=x*100;
-	
-	if (error==1) value=0xffffffff;
-	
-	D_TEMP[0]=value>>24;
-	D_TEMP[1]=value>>16;
-	D_TEMP[2]=value>> 8;
-	D_TEMP[3]=value;
-	
-	HAL_I2C_DeInit(&hi2c1);
-	
-	return x;
-}
-
-float LM_in_i (u8 z)
-{
-	 uint16_t DevAddress=0x00;//
-	 uint8_t  a[32];
-	 uint8_t  c[1];
-	 uint16_t Size=2;//размер считываемого массива
-	 uint8_t state=1;
-	 uint8_t v=0;
-	 u32 error=0;
-	 int value=0;
-	 
-	 float x=0;
-	 float m=13797;
-	 float y=0;
-	 float r=2;
-	 float b=-1833;
-	 int  p=0;
-	 
-	HAL_I2C_Init(&hi2c1);
-	 
-	if (z==8)  DevAddress=0x50;//LM25056 - 1-го канала
-	if (z==7)  DevAddress=0x56;//LM25056 - 2-го канала
-	if (z==6)  DevAddress=0x51;//LM25056 - 3-го канала
-	if (z==5)  DevAddress=0x57;//LM25056 - 4-го канала
-	if (z==4)  DevAddress=0x59;//LM25056 - 5-го канала
-	if (z==3)  DevAddress=0x5a;//LM25056 - 6-го канала
-	if (z==2)  DevAddress=0x15;//LM25056 - 7-го канала
-	if (z==1)  DevAddress=0x16;//LM25056 - 8-го канала
-	
-	c[0]=0xd1;//Retrieves  input current measurement
-
-	error=HAL_I2C_Master_SMBA_block_recieve(&hi2c1,(DevAddress<<1),c,1,a,Size,1);
-	
-	p=(a[1]<<8)+a[0];
-	y=p;
-
-	x=(1/m)*(y*(powf(10,r))-b);
-	
-//	f_out("I=",x);
-	
-	value=x*100;
-	
-	if (error==1) value=0xffffffff;
-	
-	D_TEMP[0]=value>>24;
-	D_TEMP[1]=value>>16;
-	D_TEMP[2]=value>> 8;
-	D_TEMP[3]=value;
-	
-	HAL_I2C_DeInit(&hi2c1);
-	
-	return x;
-}
-
-float LM_in_p (u8 z)
-{
-	 uint16_t DevAddress=0x00;//
-	 uint8_t  a[32];
-	 uint8_t  c[1];
-	 uint16_t Size=2;//размер считываемого массива
-	 uint8_t state=1;
-	 uint8_t v=0;
-	 u32 error=0;
-	 int value;
-	 
-	 float x=0;
-	 float m=5501;
-	 float y=0;
-	 float r=3;
-	 float b=-2908;
-	 int  p=0;
-	 
-	HAL_I2C_Init(&hi2c1);
-	 
-	if (z==8)  DevAddress=0x50;//LM25056 - 1-го канала
-	if (z==7)  DevAddress=0x56;//LM25056 - 2-го канала
-	if (z==6)  DevAddress=0x51;//LM25056 - 3-го канала
-	if (z==5)  DevAddress=0x57;//LM25056 - 4-го канала
-	if (z==4)  DevAddress=0x59;//LM25056 - 5-го канала
-	if (z==3)  DevAddress=0x5a;//LM25056 - 6-го канала
-	if (z==2)  DevAddress=0x15;//LM25056 - 7-го канала
-	if (z==1)  DevAddress=0x16;//LM25056 - 8-го канала
-	
-	c[0]=0xd2;//Retrieves   input power measurement.
-
-	error=HAL_I2C_Master_SMBA_block_recieve(&hi2c1,(DevAddress<<1),c,1,a,Size,1);
-	
-	p=(a[1]<<8)+a[0];
-	y=p;
-
-	x=(1/m)*(y*(powf(10,r))-b);
-	
-//	f_out("P=",x);
-	
-	value=x*100;
-	
-	if (error==1) value=0xffffffff;
-	
-//	u_out("i2c:",error);
-	
-	D_TEMP[0]=value>>24;
-	D_TEMP[1]=value>>16;
-	D_TEMP[2]=value>> 8;
-	D_TEMP[3]=value;
-	
-	HAL_I2C_DeInit(&hi2c1);
-	
-	return x;
-}
 
 u32 idx_srv(
 u32 a,//текущий индекс команды в массиве хранилище
@@ -2426,515 +1932,9 @@ void CMD_search (ID_SERVER *id,SERVER *srv)
 			);	
 			
 			//------------------------------------
-			if (START_BP==1)
-			{
-				LM_MFR_ID(1);
-				
-				SYS_CMD_MSG(
-				id,				//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH1,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_MFR_ID(2);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH2,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_MFR_ID(3);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH3,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_MFR_ID(4);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH4,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_MFR_ID(5);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH5,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				
-				LM_MFR_ID(6);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH6,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_MFR_ID(7);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH7,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_MFR_ID(8);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_ID_CH8,		//тип сообщения
-				3,		 		//объём данных сообщения в байтах
-				LM_ID_CN,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-			}
-			//-----------------------------------
-			if (START_BP==1)
-			{
-				LM_TEMP(1);
-							
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH1,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_TEMP(2);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH2,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_TEMP(3);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH3,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_TEMP(4);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH4,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_TEMP(5);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH5,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_TEMP(6);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH6,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_TEMP(7);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH7,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-				
-				LM_TEMP(8);
-				
-				SYS_CMD_MSG(
-				id,//реестр
-				&INVOICE[ADR], 	//структура квитанций	
-				i,	 			//индекс в реестре
-				MSG_TEMP_CH8,	//тип сообщения
-				4,		 		//объём данных сообщения в байтах
-				D_TEMP,		//данные сообщения - массив данных
-				TIME_SYS	  	//время составления квитанции
-				);
-			}
-			//-----------------------------------
-			
-			LM_in_p(1);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH1,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_p(2);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH2,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_p(3);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH3,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_p(4);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH4,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_p(5);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH5,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_p(6);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH6,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_p(7);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH7,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_p(8);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_P_CH8,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
 			
 			//-----------------------------------
 			
-			LM_in_i(1);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH1,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_i(2);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH2,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_i(3);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH3,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_i(4);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH4,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_i(5);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH5,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_i(6);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH6,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_i(7);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH7,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_in_i(8);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_I_CH8,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			//-----------------------------------
-			
-			LM_v(1);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH1,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_v(2);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH2,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_v(3);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH3,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_v(4);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH4,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_v(5);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH5,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_v(6);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH6,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_v(7);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH7,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			LM_v(8);
-			
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_U_CH8,	//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
-			
-			//-----------------------------------
-			//квитанция о состоянии питания каналов
-			D_TEMP[0]=0;
-			D_TEMP[1]=0;
-			D_TEMP[2]=0;
-			D_TEMP[3]=PWR_CHANNEL;
-			u_out("PWR:",PWR_CHANNEL);
-			SYS_CMD_MSG(
-			id,//реестр
-			&INVOICE[ADR], 	//структура квитанций	
-			i,	 			//индекс в реестре
-			MSG_PWR_CHANNEL,//тип сообщения
-			4,		 		//объём данных сообщения в байтах
-			D_TEMP,    		//данные сообщения - массив данных
-			TIME_SYS	  	//время составления квитанции
-			);
 			//-----------------------------------
 			SERV_ID_DEL (id,i);//удаляем команду из реестра
 			
@@ -2942,31 +1942,7 @@ void CMD_search (ID_SERVER *id,SERVER *srv)
 			un_out("[",TIME_SYS);Transf("]\r\n");
 		}	
 		
-		if (id->CMD_TYPE[i]==CMD_LED)//команда управления светодиодами на лицевой панели
-		{
-			idx0=idx_srv(id->INDEX[i],0);//индекс расположения данных в "хранилище"
-			idx1=idx_srv(id->INDEX[i],1);//индекс расположения данных в "хранилище"
-			idx2=idx_srv(id->INDEX[i],2);//индекс расположения данных в "хранилище"
-			idx3=idx_srv(id->INDEX[i],3);//индекс расположения данных в "хранилище"
-			
-			data=((srv->MeM[idx0])<<24)|((srv->MeM[idx1])<<16)|((srv->MeM[idx2])<< 8)|((srv->MeM[idx3]));
-			
-			TCA_WR(data);//выполняем команду
-			
-			ADR=ADR_FINDER(id->SENDER_ID[i],&ADDR_SNDR);//ищем порядковый номер отправителя в структуре отправителей, если его там нет  - то заносим туда
-
-			ERROR_CMD_MSG ( //заполняем квитанцию о выполнении команды
-			id,			    //указатель на реестр
-			&INVOICE[ADR],  //указатель на структуру квитанции
-			i, 			    //индекс команды в реестре
-			MSG_CMD_OK,	    //сообщение квитанции
-			0,				//данные квитанции
-			TIME_SYS	    //текущее системное время 
-			);	
-			SERV_ID_DEL (id,i);//удаляем команду из реестра
-			
-			Transf("Светодиоды!\r\n");			
-		}
+		
 		
 		if (id->CMD_TYPE[i]==CMD_12V)//команда включения источника +12V
 		{
@@ -2995,30 +1971,6 @@ void CMD_search (ID_SERVER *id,SERVER *srv)
 			u_out("START_BP:",START_BP);
 		}
 		
-		if (id->CMD_TYPE[i]==CMD_CH_UP)//команда включения канала питания
-		{
-			idx0=idx_srv(id->INDEX[i],0);//индекс расположения данных в "хранилище"
-			idx1=idx_srv(id->INDEX[i],1);//индекс расположения данных в "хранилище"
-			idx2=idx_srv(id->INDEX[i],2);//индекс расположения данных в "хранилище"
-			idx3=idx_srv(id->INDEX[i],3);//индекс расположения данных в "хранилище"
-			
-			data=((srv->MeM[idx0])<<24)|((srv->MeM[idx1])<<16)|((srv->MeM[idx2])<< 8)|((srv->MeM[idx3]));
-			
-			PWR_072 (data);//выполняем команду
-		
-			ADR=ADR_FINDER(id->SENDER_ID[i],&ADDR_SNDR);//ищем порядковый номер отправителя в структуре отправителей, если его там нет  - то заносим туда
-
-			ERROR_CMD_MSG ( //заполняем квитанцию о выполнении команды
-			id,			    //указатель на реестр
-			&INVOICE[ADR],  //указатель на структуру квитанции
-			i, 			    //индекс команды в реестре
-			MSG_CMD_OK,	    //сообщение квитанции
-			0,				//данные квитанции
-			TIME_SYS	    //текущее системное время 
-			);	
-			SERV_ID_DEL (id,i);//удаляем команду из реестра
-			u_out("включаем канал:",data);
-		}
 		
 	//	if (id->TIME<TIME_SYS)
 	}
@@ -3036,45 +1988,33 @@ int main(void)
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
   /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
   /* Initialize all configured peripherals */
-  MX_I2C1_Init();
+//MX_I2C1_Init();
   MX_GPIO_Init();
 
   MX_DMA_Init ();
   MX_ADC1_Init();
-  MX_TIM4_Init();
-//MX_SPI2_Init();
-//MX_SPI3_Init();
+//MX_TIM4_Init();
+  MX_SPI2_Init();
+  MX_SPI3_Init();
   MX_SPI4_Init();
   MX_SPI5_Init();
   MX_USART1_UART_Init();
 //MX_USART2_UART_Init();
-//MX_USART6_UART_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 
 //  Delay(1000);
   
   Transf("-------------\r\n");
-  Transf("    Б330\r\n");
+  Transf("    uПанорама\r\n");
   Transf("-------------\r\n");
   
-  PWDN_4(1);
-  
-  ENABLE_LM25056_MK(0);//enable 
-  PWR_072 (255);	   //снять питание на кассеты	
-  RESET_TCA6424A_MK(1); 
-  
+  PWDN_2(1);
+
   VD3(0);
   VD4(0);
   VD5(0);
@@ -3083,14 +2023,14 @@ int main(void)
  Massiv_dbm();
  
 HAL_UART_Receive_IT(&huart1,RX_uBUF,1);
-HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,5); // Start ADC in DMA 
+HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA 
 
 //--------init wiz820------------------
- PWDN_4(0);//снимаем повердаун с wiz820
- NSS_4(1);
- RES_4(0);
+ PWDN_2(0);//снимаем повердаун с wiz820
+ NSS_2(1);
+ RES_2(0);
  Delay(2);
- RES_4(1);
+ RES_2(1);
  INIT_SERV_ARCHIV (&SERV1,&ID_SERV1,&ADDR_SNDR);//инициилизируем хранилище и реестр
  
  while (i<200)
@@ -3110,17 +2050,16 @@ HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,5); // Start ADC in DMA
 	WATCH_DOG ();
 	LED();
 	UART_conrol();
-	BP_start(START_BP);
 	
 	if (EVENT_INT1==1)
 	{
 		EVENT_INT1=0;
-	//	Transf("event 1!\r");
+		Transf("event 1!\r");
 		RECEIVE_udp (0, 3001,1);		
 	}; 
 	CMD_search (&ID_SERV1,&SERV1);
 	SEND_UDP_MSG ();
-  	  UART_DMA_TX();
+    UART_DMA_TX();
 	//	if (FLAG_DMA_ADC==1) {DMA_ADC();FLAG_DMA_ADC=0;}	
   }
 

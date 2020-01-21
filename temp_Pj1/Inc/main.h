@@ -129,6 +129,9 @@ typedef unsigned long uint32;
 #define PB10_0  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10,GPIO_PIN_RESET)
 #define PB10_1  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10,GPIO_PIN_SET)
 
+#define PB12_0  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12,GPIO_PIN_RESET)
+#define PB12_1  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12,GPIO_PIN_SET)
+
 #define PC13_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13,GPIO_PIN_RESET)
 #define PC13_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13,GPIO_PIN_SET)
 
@@ -248,38 +251,41 @@ typedef unsigned long uint32;
 #define PE15_1 HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15,GPIO_PIN_SET)
 
 //----------------------
+#define NSS_4(a) 	((a==1)?PE4_1 : PE4_0)
+#define VD3(a) 		((a==1)?PC13_1 : PC13_0)
+#define VD4(a) 		((a==1)?PC14_1 : PC14_0)
+#define VD5(a) 		((a==1)?PC15_1 : PC15_0)
 
-#define VD3(a) ((a==1)?PC13_1 : PC13_0)
-#define VD4(a) ((a==1)?PC14_1 : PC14_0)
-#define VD5(a) ((a==1)?PC15_1 : PC15_0)
-
-#define PWDN_4(a) ((a==1)?PC1_1 : PC1_0)
+#define PWDN_2(a) 	((a==1)?PE8_1  : PE8_0)
+#define RES_2(a) 	((a==1)?PE9_1  : PE9_0)
+#define NSS_2(a) 	((a==1)?PB12_1 : PB12_0)
 	
-#define CS_5_MK(a) 		 ((a==1)?PE10_1 : PE10_0)
-#define CS_SLAVE_5_MK(a) ((a==1)?PE11_1 : PE11_0)
-#define CS_2_MK(a)       ((a==1)?PB12_1 : PB12_0)
+#define CS_5_MK_1_1(a) 	 ((a==1)?PD8_1  : PD8_0)
+#define CS_5_MK_1_2(a) 	 ((a==1)?PD9_1  : PD9_0)
+#define CS_5_MK_1_3(a) 	 ((a==1)?PD10_1 : PD10_0)
+#define CS_5_MK_1_4(a) 	 ((a==1)?PD11_1 : PD11_0)
 
-#define POK_HDS_OUT(a)       	((a==1)?PD9_1  : PD9_0)
-#define OE_SCLK_SLAVE_5_MK(a)   ((a==1)?PD10_1 : PD10_0)
-#define UPR_HDS_MK(a)   		((a==1)?PD12_1 : PD12_0)
-#define ENABLE_LM25056_MK(a)  	((a==1)?PD14_1 : PD14_0)
-#define RESET_TCA6424A_MK(a)  	((a==1)?PD15_1 : PD15_0)
-#define SMBA_LM25056_MK(a)  	((a==1)?PC6_1 : PC6_0)
+#define CS_5_MK_2_1(a) 	 ((a==1)?PD12_1 : PD12_0)
+#define CS_5_MK_2_2(a) 	 ((a==1)?PD13_1 : PD13_0)
+#define CS_5_MK_2_3(a) 	 ((a==1)?PD14_1 : PD14_0)
+#define CS_5_MK_2_4(a) 	 ((a==1)?PD15_1 : PD15_0)
 
-#define INT_TCA6424A_MK     HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_7)
-#define FLAG_MIC29151       HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_8)
+#define CS_5_MK_3_1(a) 	 ((a==1)?PC6_1 : PC6_0)
+#define CS_5_MK_3_2(a) 	 ((a==1)?PC7_1 : PC7_0)
+#define CS_5_MK_3_3(a) 	 ((a==1)?PC8_1 : PC8_0)
+#define CS_5_MK_3_4(a) 	 ((a==1)?PC9_1 : PC9_0)
 
-#define CS_EPCS1(a)  	((a==1)?PD0_1 : PD0_0)
-#define CS_EPCS2(a)  	((a==1)?PD1_1 : PD1_0)
+#define CS_5_MK_4_1(a) 	 ((a==1)?PA8_1 : PA8_0)
+#define CS_5_MK_4_2(a) 	 ((a==1)?PD0_1 : PD0_0)
+#define CS_5_MK_4_3(a) 	 ((a==1)?PD1_1 : PD1_0)
+#define CS_5_MK_4_4(a) 	 ((a==1)?PD3_1 : PD3_0)
 
-#define DE_RS485(a)  	((a==1)?PD4_1 : PD4_0)
-#define NRE_RS485(a)  	((a==1)?PD7_1 : PD7_0)
+#define ADF_LE_MK(a) 	 ((a==1)?PD7_1 : PD7_0)
+#define ADF_LD_MK(a) 	 ((a==1)?PB5_1 : PB5_0)
+#define WDI_MK(a)  		 ((a==1)?PB9_1 : PB9_0)
 
-#define WDI_MK(a)  		((a==1)?PB9_1 : PB9_0)
-#define RES_4(a)  		((a==1)?PE0_1 : PE0_0)
-
-#define NSS_4(a)        ((a==1)?PE4_1 : PE4_0)
-
+#define CS_45(a) 	 	 ((a==1)?PE0_1 : PE0_0)
+#define RESET_AT45(a) 	 ((a==1)?PE1_1 : PE1_0)
 
 
 #define u64 unsigned long long
