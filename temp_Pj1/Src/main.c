@@ -594,7 +594,7 @@ static void MX_SPI4_Init(void)
   hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi4.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi4.Init.NSS = SPI_NSS_SOFT;
-  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
   hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -800,7 +800,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pins : */
-  GPIO_InitStruct.Pin   = GPIO_PIN_5|GPIO_PIN_9|GPIO_PIN_12;
+  GPIO_InitStruct.Pin   = GPIO_PIN_9|GPIO_PIN_12;
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -825,6 +825,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+  
+      /*Configure GPIO pin :  */
+  GPIO_InitStruct.Pin  = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : INT2 */
  // GPIO_InitStruct.Pin  = GPIO_PIN_7;
@@ -1422,7 +1428,12 @@ if (strcmp(Word,"time")==0) //
 //	  u_out("TIME_TEST:",TIME_TEST);
 	  
    } else	
-	
+if (strcmp(Word,"adf")==0) //
+   {
+	  crc_comp =atoi  (DATA_Word); 
+      u_out ("принял adf:",crc_comp); 
+	     ADF4351_prog (crc_comp);
+   } else	
 if (strcmp(Word,"mem")==0) //
    {
 	  crc_comp =atoi  (DATA_Word); 
@@ -1976,6 +1987,16 @@ void CMD_search (ID_SERVER *id,SERVER *srv)
 	}
 }
 
+
+u8 PIN_control_PB5 (void)
+{
+  static u8 pn_old;
+  u8 pn;
+  u8 flag;
+  pn=HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_5);
+  if (pn_old!=pn) {pn_old=pn;flag=1;} else flag=0;
+  return flag;
+}
   
 int main(void)
 {
@@ -2026,6 +2047,8 @@ HAL_UART_Receive_IT(&huart1,RX_uBUF,1);
 HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA 
 
 //--------init wiz820------------------
+ ADF_LE_MK(0);
+ NSS_4(1);
  PWDN_2(0);//снимаем повердаун с wiz820
  NSS_2(1);
  RES_2(0);
@@ -2050,6 +2073,8 @@ HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA
 	WATCH_DOG ();
 	LED();
 	UART_conrol();
+	
+//	if (PIN_control_PB5 ()) {Transf("event PB5!\r\n");};
 	
 	if (EVENT_INT1==1)
 	{

@@ -281,7 +281,6 @@ typedef unsigned long uint32;
 #define CS_5_MK_4_4(a) 	 ((a==1)?PD3_1 : PD3_0)
 
 #define ADF_LE_MK(a) 	 ((a==1)?PD7_1 : PD7_0)
-#define ADF_LD_MK(a) 	 ((a==1)?PB5_1 : PB5_0)
 #define WDI_MK(a)  		 ((a==1)?PB9_1 : PB9_0)
 
 #define CS_45(a) 	 	 ((a==1)?PE0_1 : PE0_0)
@@ -512,6 +511,7 @@ u32 ADR_FINDER (u64 ,ADR_SENDER *); //ищем адрес отправителя
 void Set_network(void);
 void MSG_SHOW (void);
 u32 SEND_UDP_MSG (void);
+void ADF4351_prog (u32);
 
 
 u32 ERROR_CMD_MSG	//формирует структуру квитанции уровня CMD
