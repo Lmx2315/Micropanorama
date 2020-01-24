@@ -52,16 +52,16 @@ reg_ADF4351 pll1;
 void INIT_PLL (reg_ADF4351 *pll)
 {
 	pll->FRAC							=0;// 0     -    4095
-	pll->INT							=30000;// (65536 > INT >22 ) если 4/5 и больше 75 если 8/9!!!
+	pll->INT							=150;// (65536 > INT >22 ) если 4/5 и больше 75 если 8/9!!!
 	pll->PHASE_ADJUST					=0;//0 - OFF
 	pll->PRESCALER						=0;//0 - 4/5  |  1 - 8/9
 	pll->PHASE							=1;//(RECOMMENDED)
-	pll->MOD							=2;	
+	pll->MOD							=100;	
 	pll->LNALSM							=0;//	0 - low noise mode    3 - low spur mode           //LOW NOISE AND LOW SPUR MODES 
 	pll->MUXOUT							=2;//3 - R counter output
 	pll->REF_DOUBLER					=0;
-	pll->RDIV2							=0;
-	pll->R_COUNTER						=5;
+	pll->RDIV2							=1;
+	pll->R_COUNTER						=50;
 	pll->DOUB_BUFFER					=0;
 	pll->CP_CURRENT						=7;//7-2.5mA
 	pll->LDF							=1;//1 - INT N
@@ -147,25 +147,25 @@ void init_array_pll (reg_ADF4351 *pll)
 			  (5);		  
 	
 	//----------------
-	/*
-	pll->R[0]=0x3A980000;
+	
+	pll->R[0]=0x3200000;
 	pll->R[1]=0x8011;
-	pll->R[2]=0xFA0F42;
-	pll->R[3]=0x4004B3;
-	pll->R[4]=0x80103C;
+	pll->R[2]=0x202A7C2;
+	pll->R[3]=0x6004B3;
+	pll->R[4]=0xB1042C;
 	pll->R[5]=0x580005;
-	*/
+	
 	
 }
 
 void ADF4351_prog (u32 freq)
 {
 	int i=0;
-	u32 PFD=20;
+	u32 PFD=1;
 	u32 INT=0;
 	u32 R=0;
 	
-	INT=freq/PFD;	
+	INT=freq/PFD*2;	
 	
 	INIT_PLL 		(&pll1); //инициализируем структуру
 	

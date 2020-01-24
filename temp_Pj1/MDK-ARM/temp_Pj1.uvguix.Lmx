@@ -2588,9 +2588,9 @@
       <ActiveTab>0</ActiveTab>
       <Doc>
         <Name>.\adf4351.c</Name>
-        <ColumnNumber>14</ColumnNumber>
-        <TopLine>37</TopLine>
-        <CurrentLine>46</CurrentLine>
+        <ColumnNumber>10</ColumnNumber>
+        <TopLine>142</TopLine>
+        <CurrentLine>166</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -2607,7 +2607,7 @@
       <Doc>
         <Name>../Src/stm32f4xx_hal_msp.c</Name>
         <ColumnNumber>31</ColumnNumber>
-        <TopLine>208</TopLine>
+        <TopLine>210</TopLine>
         <CurrentLine>211</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2616,7 +2616,7 @@
       <Doc>
         <Name>../Src/main.c</Name>
         <ColumnNumber>1</ColumnNumber>
-        <TopLine>1980</TopLine>
+        <TopLine>1984</TopLine>
         <CurrentLine>2024</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2643,7 +2643,7 @@
       <Doc>
         <Name>startup_stm32f411xe.s</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>172</TopLine>
+        <TopLine>174</TopLine>
         <CurrentLine>191</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2652,7 +2652,7 @@
       <Doc>
         <Name>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>1947</TopLine>
+        <TopLine>1949</TopLine>
         <CurrentLine>1962</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2661,7 +2661,7 @@
       <Doc>
         <Name>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>734</TopLine>
+        <TopLine>736</TopLine>
         <CurrentLine>749</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2670,7 +2670,7 @@
       <Doc>
         <Name>../Src/stm32f4xx_it.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>297</TopLine>
+        <TopLine>299</TopLine>
         <CurrentLine>320</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2679,7 +2679,7 @@
       <Doc>
         <Name>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>1300</TopLine>
+        <TopLine>1302</TopLine>
         <CurrentLine>1310</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2696,8 +2696,8 @@
       </Doc>
       <Doc>
         <Name>../Inc/main.h</Name>
-        <ColumnNumber>4</ColumnNumber>
-        <TopLine>430</TopLine>
+        <ColumnNumber>6</ColumnNumber>
+        <TopLine>432</TopLine>
         <CurrentLine>443</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2706,7 +2706,7 @@
       <Doc>
         <Name>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>924</TopLine>
+        <TopLine>926</TopLine>
         <CurrentLine>931</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -2715,7 +2715,7 @@
       <Doc>
         <Name>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>411</TopLine>
+        <TopLine>413</TopLine>
         <CurrentLine>426</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
