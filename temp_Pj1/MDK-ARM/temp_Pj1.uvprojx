@@ -444,7 +444,7 @@
             <File>
               <FileName>adf4351.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\adf4351.c</FilePath>
+              <FilePath>..\Src\adf4351.c</FilePath>
             </File>
           </Files>
         </Group>

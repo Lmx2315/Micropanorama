@@ -1,4 +1,4 @@
-.\temp_pj1\adf4351.o: adf4351.c
+.\temp_pj1\adf4351.o: ..\Src\adf4351.c
 .\temp_pj1\adf4351.o: ../Inc/main.h
 .\temp_pj1\adf4351.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 .\temp_pj1\adf4351.o: ../Inc/stm32f4xx_hal_conf.h

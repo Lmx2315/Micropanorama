@@ -663,7 +663,7 @@ static void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 1500000;
+  huart1.Init.BaudRate = 115208;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -1687,7 +1687,7 @@ void LED (void)
 	if ((TIMER1<100)&&(FLAG_T1==0)) 
 	{
 		
-		VD3(1);
+	//	VD3(1);
 		VD4(0);
 		VD5(0);
 		FLAG_T1=1;
@@ -1696,7 +1696,7 @@ void LED (void)
 	
 	if ((TIMER1>200)&&(FLAG_T2==0)) 
 	{
-		VD3(0);
+//		VD3(0);
 		VD4(1);
 		VD5(0);
 		FLAG_T2=1;
@@ -1704,7 +1704,7 @@ void LED (void)
 	
 	if ((TIMER1>400))
 	{
-		VD3(0);
+//		VD3(0);
 		VD4(0);
 		VD5(1);
 	}
@@ -1994,6 +1994,7 @@ u8 PIN_control_PB5 (void)
   u8 pn;
   u8 flag;
   pn=HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_5);
+  if (pn==0) VD3(1); else VD3(0);
   if (pn_old!=pn) {pn_old=pn;flag=1;} else flag=0;
   return flag;
 }
@@ -2036,7 +2037,7 @@ int main(void)
   
   PWDN_2(1);
 
-  VD3(0);
+  VD3(1);// будет отображать захват ФАПЧ-а
   VD4(0);
   VD5(0);
   
@@ -2048,7 +2049,9 @@ HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA
 
 //--------init wiz820------------------
  ADF_LE_MK(0);
- NSS_4(1);
+ NSS_4(1);//включение ФАПЧ
+ 
+ 
  PWDN_2(0);//снимаем повердаун с wiz820
  NSS_2(1);
  RES_2(0);
@@ -2066,6 +2069,8 @@ HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA
  Set_network();
  RECEIVE_udp (0, 3001,1);
 
+ IO("~0 adf:3000;");//устанавливаем частоту ФАПЧ
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -2074,7 +2079,7 @@ HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA
 	LED();
 	UART_conrol();
 	
-//	if (PIN_control_PB5 ()) {Transf("event PB5!\r\n");};
+	if (PIN_control_PB5 ()) Transf("Событие ФАПЧ!\r\n");
 	
 	if (EVENT_INT1==1)
 	{
