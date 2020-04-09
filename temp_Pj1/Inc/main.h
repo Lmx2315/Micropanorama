@@ -112,7 +112,8 @@ typedef unsigned long uint32;
 
 /* Private defines -----------------------------------------------------------*/
 /* USER CODE BEGIN Private defines */
-
+#define PA8_0  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8,GPIO_PIN_RESET)
+#define PA8_1  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8,GPIO_PIN_SET)
 
 #define PB5_0  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5,GPIO_PIN_RESET)
 #define PB5_1  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5,GPIO_PIN_SET)
@@ -135,8 +136,7 @@ typedef unsigned long uint32;
 #define PC13_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13,GPIO_PIN_RESET)
 #define PC13_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13,GPIO_PIN_SET)
 
-#define PC3_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3,GPIO_PIN_RESET)
-#define PC3_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3,GPIO_PIN_SET)
+
 
 #define PC1_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1,GPIO_PIN_RESET)
 #define PC1_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1,GPIO_PIN_SET)
@@ -144,8 +144,20 @@ typedef unsigned long uint32;
 #define PC2_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2,GPIO_PIN_RESET)
 #define PC2_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2,GPIO_PIN_SET)
 
+#define PC3_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3,GPIO_PIN_RESET)
+#define PC3_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3,GPIO_PIN_SET)
+
+#define PC6_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6,GPIO_PIN_RESET)
+#define PC6_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6,GPIO_PIN_SET)
+
+#define PC7_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7,GPIO_PIN_RESET)
+#define PC7_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7,GPIO_PIN_SET)
+
 #define PC8_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8,GPIO_PIN_RESET)
 #define PC8_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8,GPIO_PIN_SET)
+
+#define PC9_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9,GPIO_PIN_RESET)
+#define PC9_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9,GPIO_PIN_SET)
 
 #define PC14_0  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14,GPIO_PIN_RESET)
 #define PC14_1  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14,GPIO_PIN_SET)
@@ -512,7 +524,7 @@ void Set_network(void);
 void MSG_SHOW (void);
 u32 SEND_UDP_MSG (void);
 void ADF4351_prog (u32);
-
+void ATT (u16 ,u8 );
 
 u32 ERROR_CMD_MSG	//формирует структуру квитанции уровня CMD
 (

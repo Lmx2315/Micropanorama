@@ -807,7 +807,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins :  */
-  GPIO_InitStruct.Pin   = GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
+  GPIO_InitStruct.Pin   = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_3|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
   GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull  = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -1541,7 +1541,19 @@ if (strcmp(Word,"menu")==0)
    {
      Transf ("принял menu\r\n"    );
      Menu1(0);
-   }  
+   } else
+
+if (strcmp(Word,"att")==0)                     
+   {
+     Transf ("принял att:\r\n"    );
+	 crc_comp =atoi(DATA_Word) ;	//адрес платы  1-4
+ 	 crc_input=atoi(DATA_Word2);	//Дб
+	 un_out("" ,crc_comp );
+	  u_out(",",crc_input);
+	  
+	  ATT (crc_comp,crc_input);
+
+   } 
  } 
 	  for (i=0u;i<buf_Word;i++)               Word[i]     =0x0;
       for (i=0u;i<buf_DATA_Word;  i++)   DATA_Word[i]     =0x0;
@@ -1987,6 +1999,62 @@ void CMD_search (ID_SERVER *id,SERVER *srv)
 	}
 }
 
+void ATT (u16 adr,u8 db)
+{
+	db=~db;
+	if (adr==1)
+	{
+		spi5send8(db);
+		CS_5_MK_1_1(1);
+		CS_5_MK_1_2(1);
+		CS_5_MK_1_3(1);
+		CS_5_MK_1_4(1);
+	} else
+	if (adr==2)
+	{
+		spi5send8(db);
+		CS_5_MK_2_1(1);
+		CS_5_MK_2_2(1);
+		CS_5_MK_2_3(1);
+		CS_5_MK_2_4(1);
+	} else	
+	if (adr==3)
+	{
+		spi5send8(db);
+		CS_5_MK_3_1(1);
+		CS_5_MK_3_2(1);
+		CS_5_MK_3_3(1);
+		CS_5_MK_3_4(1);
+	} else
+	if (adr==4)
+	{
+		spi5send8(db);
+		CS_5_MK_4_1(1);
+		CS_5_MK_4_2(1);
+		CS_5_MK_4_3(1);
+		CS_5_MK_4_4(1);
+	} 	
+
+	CS_5_MK_1_1(0);
+	CS_5_MK_1_2(0);
+	CS_5_MK_1_3(0);
+	CS_5_MK_1_4(0);
+	
+	CS_5_MK_2_1(0);
+	CS_5_MK_2_2(0);
+	CS_5_MK_2_3(0);
+	CS_5_MK_2_4(0);
+	
+	CS_5_MK_3_1(0);
+	CS_5_MK_3_2(0);
+	CS_5_MK_3_3(0);
+	CS_5_MK_3_4(0);
+	
+	CS_5_MK_4_1(0);
+	CS_5_MK_4_2(0);
+	CS_5_MK_4_3(0);
+	CS_5_MK_4_4(0);	
+}
 
 u8 PIN_control_PB5 (void)
 {
@@ -2034,6 +2102,26 @@ int main(void)
   Transf("-------------\r\n");
   Transf("    uПанорама\r\n");
   Transf("-------------\r\n");
+  
+  	CS_5_MK_1_1(0);
+	CS_5_MK_1_2(0);
+	CS_5_MK_1_3(0);
+	CS_5_MK_1_4(0);
+	
+	CS_5_MK_2_1(0);
+	CS_5_MK_2_2(0);
+	CS_5_MK_2_3(0);
+	CS_5_MK_2_4(0);
+	
+	CS_5_MK_3_1(0);
+	CS_5_MK_3_2(0);
+	CS_5_MK_3_3(0);
+	CS_5_MK_3_4(0);
+	
+	CS_5_MK_4_1(0);
+	CS_5_MK_4_2(0);
+	CS_5_MK_4_3(0);
+	CS_5_MK_4_4(0);
   
   PWDN_2(1);
 
