@@ -67,7 +67,7 @@ TIM_OC_InitTypeDef sConfigOC = {0};
 
 /* USER CODE BEGIN PV */
 
-volatile  uint16_t adcBuffer[5]; // Buffer for store the results of the ADC conversion
+volatile  uint16_t adcBuffer[16]; // Buffer for store the results of the ADC conversion
 float adc_ch[17];
 
 uint8_t transmitBuffer[32];
@@ -1050,6 +1050,14 @@ void f_out (char s[],float a)
    Transf ("\r\n");
 }
 
+void fn_out (char s[],float a)
+{
+   Transf (s);
+   //itoa (a,strng,10);
+   sprintf (strng,"%.2f",a);
+   Transf(strng);
+}
+
 void d_out (char s[],int a)
 {
    Transf (s);
@@ -1784,56 +1792,61 @@ return TCelsius;
 
 void ADC_test (void)
 {
-//	u32 i=0;
-
+	u32 i=0;
+	
 	adc_cntl=0;	
 	
-	adc_ch[ 0] = ((float)adcBuffer[0])*3.3/4096*2;
-	adc_ch[ 1] = ((float)adcBuffer[1])*3.3/4096*2;
-	adc_ch[ 2] = ((float)adcBuffer[2])*3.3*5.71428/4096;//12 Вольт делитель 47к-10к
-	adc_ch[ 3] = ((float)adcBuffer[3])*3.3/4096*2;
-	adc_ch[ 4] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[ 5] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[ 6] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[ 7] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[ 8] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[ 9] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[10] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[11] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[12] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[13] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[14] = ((float)adcBuffer[4])*3.3/4096;
-	adc_ch[15] = ((float)adcBuffer[4])*3.3/4096;
+	adc_ch[ 0] = ((float)adcBuffer[ 0])*3.3/4096;
+	adc_ch[ 1] = ((float)adcBuffer[ 1])*3.3/4096;
+	adc_ch[ 2] = ((float)adcBuffer[ 2])*3.3/4096;//
+	adc_ch[ 3] = ((float)adcBuffer[ 3])*3.3/4096;
+	adc_ch[ 4] = ((float)adcBuffer[ 4])*3.3/4096;
+	adc_ch[ 5] = ((float)adcBuffer[ 5])*3.3/4096;
+	adc_ch[ 6] = ((float)adcBuffer[ 6])*3.3/4096;
+	adc_ch[ 7] = ((float)adcBuffer[ 7])*3.3/4096;
+	adc_ch[ 8] = ((float)adcBuffer[ 8])*3.3/4096;
+	adc_ch[ 9] = ((float)adcBuffer[ 9])*3.3/4096;
+	adc_ch[10] = ((float)adcBuffer[10])*3.3/4096;
+	adc_ch[11] = ((float)adcBuffer[11])*3.3/4096;
+	adc_ch[12] = ((float)adcBuffer[12])*3.3/4096;
+	adc_ch[13] = ((float)adcBuffer[13])*3.3/4096;
+	adc_ch[14] = ((float)adcBuffer[14])*3.3/4096;
+	adc_ch[15] = ((float)adcBuffer[15])*3.3/4096;
 	
 	
 	Transf("\r\n---------\r\n");
-	f_out("CONTR_1_4	 :",adc_ch[0 ]);
-	f_out("CONTR_2_4     :",adc_ch[1 ]);
-	f_out("CONTR_3_4     :",adc_ch[2 ]);
-	f_out("CONTR_4_4     :",adc_ch[3 ]);
+	f_out("CONTR_1_4:",adc_ch[10]);
+	f_out("CONTR_2_4:",adc_ch[11]);
+	f_out("CONTR_3_4:",adc_ch[12]);
+	f_out("CONTR_4_4:",adc_ch[13]);
+	Transf("\r");
+	f_out("CONTR_1_1:",adc_ch[0 ]);
+	f_out("CONTR_2_1:",adc_ch[1 ]);
+	f_out("CONTR_3_1:",adc_ch[2 ]);
+	f_out("CONTR_4_1:",adc_ch[3 ]);
+	Transf("\r");
+	f_out("CONTR_1_2:",adc_ch[4 ]);
+	f_out("CONTR_2_2:",adc_ch[5 ]);
+	f_out("CONTR_3_2:",adc_ch[6 ]);
+	f_out("CONTR_4_2:",adc_ch[7 ]);
+	Transf("\r");
+	f_out("CONTR_1_3:",adc_ch[14]);
+	f_out("CONTR_2_3:",adc_ch[15]);
+	f_out("CONTR_3_3:",adc_ch[ 8]);
+	f_out("CONTR_4_3:",adc_ch[ 9]);
 	
-	f_out("CONTR_1_1	 :",adc_ch[4 ]);
-	f_out("CONTR_2_1     :",adc_ch[5 ]);
-	f_out("CONTR_3_1     :",adc_ch[6 ]);
-	f_out("CONTR_4_1     :",adc_ch[7 ]);
+	Transf("\r");
+	i=(u32)(adc_ch[10]*100);	
+	fn_out("ch1_4:",DBm[i]); Transf(" Dbm\r");
 	
-	f_out("CONTR_1_2	 :",adc_ch[8 ]);
-	f_out("CONTR_2_2     :",adc_ch[9 ]);
-	f_out("CONTR_3_2     :",adc_ch[10]);
-	f_out("CONTR_4_2     :",adc_ch[11]);
+	i=(u32)(adc_ch[11]*100);	
+	fn_out("ch2_4:",DBm[i]); Transf(" Dbm\r");
 	
-	f_out("CONTR_1_3	 :",adc_ch[12]);
-	f_out("CONTR_2_3     :",adc_ch[13]);
-	f_out("CONTR_3_3     :",adc_ch[14]);
-	f_out("CONTR_4_3     :",adc_ch[15]);
-
-//	f_out("temp_sens(С)  :",ADC_Temp(adc_ch[4]));
+	i=(u32)(adc_ch[12]*100);	
+	fn_out("ch3_4:",DBm[i]); Transf(" Dbm\r");
 	
-	Transf("\r\r\r");
-	u_out("CONTR_1_4     :",adcBuffer[0 ]);
-	u_out("CONTR_2_4     :",adcBuffer[1 ]);
-	u_out("CONTR_3_4     :",adcBuffer[2 ]);
-	u_out("CONTR_4_4     :",adcBuffer[3 ]);
+	i=(u32)(adc_ch[13]*100);	
+	fn_out("ch4_4:",DBm[i]); Transf(" Dbm\r");
 	
 }
 
