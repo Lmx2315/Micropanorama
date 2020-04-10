@@ -2157,8 +2157,12 @@ HAL_ADC_Start_DMA  (&hadc1,(uint32_t*)&adcBuffer,16); // Start ADC in DMA
  Set_network();
  RECEIVE_udp (0, 3001,1);
 
- IO("~0 adf:3000;");//устанавливаем частоту ФАПЧ
-
+ IO("~0 adf:2665;");//устанавливаем частоту ФАПЧ
+ IO("~0 att:1.0;"); //устанавливаем нулеове затухание аттенюаторов , сразу во всех каналах платы!!!
+ IO("~0 att:2.0;");
+ IO("~0 att:3.0;");
+ IO("~0 att:4.0;");
+ 
   while (1)
   {
     /* USER CODE END WHILE */

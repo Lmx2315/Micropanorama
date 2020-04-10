@@ -58,12 +58,12 @@ void INIT_PLL (reg_ADF4351 *pll)
 	pll->PHASE							=1;//(RECOMMENDED)
 	pll->MOD							=2;	
 	pll->LNALSM							=0;//	0 - low noise mode    3 - low spur mode           //LOW NOISE AND LOW SPUR MODES 
-	pll->MUXOUT							=3;//3 - R counter output было - 2, 6 - Digital lock detect
+	pll->MUXOUT							=6;//3 - R counter output было - 2, 6 - Digital lock detect
 	pll->REF_DOUBLER					=0;
 	pll->RDIV2							=1;
-	pll->R_COUNTER						=50;
+	pll->R_COUNTER						=10;
 	pll->DOUB_BUFFER					=0;
-	pll->CP_CURRENT						=5;//7-2.5mA
+	pll->CP_CURRENT						=1;//7-2.5mA
 	pll->LDF							=1;//1 - INT N
 	pll->LDP							=0;//0 - 10 ns
 	pll->PD_POLARITY					=1;//0 - negative 1 -positive
@@ -161,7 +161,7 @@ void init_array_pll (reg_ADF4351 *pll)
 void ADF4351_prog (u32 freq)
 {
 	int i=0;
-	u32 PFD=1;
+	u32 PFD=5;
 	u32 INT=0;
 	u32 R=0;
 	
