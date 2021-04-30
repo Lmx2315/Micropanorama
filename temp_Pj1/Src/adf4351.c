@@ -52,18 +52,18 @@ reg_ADF4351 pll1;
 void INIT_PLL (reg_ADF4351 *pll)
 {
 	pll->FRAC							=0;// 0     -    4095
-	pll->INT							=533;// (65536 > INT >22 ) если 4/5 и больше 75 если 8/9!!!
+//	pll->INT							=533;// (65536 > INT >22 ) если 4/5 и больше 75 если 8/9!!!
 	pll->PHASE_ADJUST					=0;//0 - OFF
 	pll->PRESCALER						=1;//0 - 4/5  |  1 - 8/9
 	pll->PHASE							=1;//(RECOMMENDED)
 	pll->MOD							=2;	
 	pll->LNALSM							=0;//0 - low noise mode    3 - low spur mode    //LOW NOISE AND LOW SPUR MODES 
-	pll->MUXOUT							=6;//3 - R counter output было - 2, 6 - Digital lock detect
+	pll->MUXOUT							=2;//3 - R counter output было - 2, 6 - Digital lock detect
 	pll->REF_DOUBLER					=0;
 	pll->RDIV2							=0;
-	pll->R_COUNTER						=20;
+	pll->R_COUNTER						=20;//20 - для 100 Мгц
 	pll->DOUB_BUFFER					=0;
-	pll->CP_CURRENT						=7;//7-2.5mA
+	pll->CP_CURRENT						=13;//7-2.5mA
 	pll->LDF							=1;//1 - INT N
 	pll->LDP							=1;//0 - 10 ns
 	pll->PD_POLARITY					=1;//0 - negative 1 -positive
@@ -87,13 +87,11 @@ void INIT_PLL (reg_ADF4351 *pll)
 	pll->RF_OUTPUT_ENABLE				=1;
 	pll->OUTPUT_POWER					=3;
 	pll->LD_PIN_MODE					=1;	//Lock DETECT
-	
-
 }
 
 void init_array_pll (reg_ADF4351 *pll)
 {
-		//-----------------------------------
+	//-----------------------------------
 	// DEFRAG
 	
 	pll->R[0]=(pll->INT <<15)+
@@ -148,13 +146,13 @@ void init_array_pll (reg_ADF4351 *pll)
 	
 	//----------------
 /*	
-	pll->R[0]=0x3200000;
-	pll->R[1]=0x8011;
-	pll->R[2]=0x202A7C2;
-	pll->R[3]=0x6004B3;
-	pll->R[4]=0xB1042C;
-	pll->R[5]=0x580005;
-	*/
+pll->R[0]=0x3200000;
+pll->R[1]=0x8011;
+pll->R[2]=0x202A7C2;
+pll->R[3]=0x6004B3;
+pll->R[4]=0xB1042C;
+pll->R[5]=0x580005;
+*/
 	
 }
 
@@ -166,11 +164,10 @@ void ADF4351_prog (u32 freq)
 	u32 R=0;
 	
 	INT=freq/PFD;	
-	pll1.INT=INT;
-	
-	INIT_PLL 		(&pll1); //инициализируем структуру	
-	
-	init_array_pll	(&pll1); //записываем транспортный массив
+	pll1.INT=INT;	
+	u_out("pll1.INT:",pll1.INT);
+	INIT_PLL       (&pll1); //инициализируем структуру	
+	init_array_pll (&pll1); //записываем транспортный массив
 	
 	ADF_LE_MK(0);
 	NSS_4(1);//включение микрухи ADF
@@ -178,7 +175,7 @@ void ADF4351_prog (u32 freq)
 	{
 		un_out("R[",i);
 		 x_out("]:",pll1.R[i]);
-		spi4send32(pll1.R[i]);//записываем регистры ADF
+		spi4send32 (pll1.R[i]);//записываем регистры ADF
 		ADF_LE_MK(1);
 		Delay(1);
 		ADF_LE_MK(0);
